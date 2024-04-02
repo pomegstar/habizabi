@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Age Measurement App</title>
+<link rel="stylesheet" href="styles.css">
+<script>
+  const inflect = require('inflect');
+  const wordToNum = require('word-to-num');
+  
+  const p = inflect();
+  
+  const form = document.getElementById('ageForm');
+  const resultDiv = document.getElementById('result');
+  
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const dob = form.dob.value.trim();
+    const years = form.years.value.trim();
+    const measure = form.measure.value.trim().toLowerCase();
+    let passed, left;
+    if (measure === 'seconds') {
+      [passed, left] = seconds(dob, years);
+    } else if (measure === 'minutes') {
+      [passed, left] = minutes(dob, years);
+    } else if (measure === 'hours') {
+      [passed, left] = hours(dob, years);
+    } else if (measure === 'days') {
+      [passed, left] = days(dob, years);
+    } else {
+      console.error("Invalid input");
+      return;
+    }
+    resultDiv.innerHTML = `You have passed ${passed} and only ${left} are left in your life.`;
+  });
+  
+  function seconds(dob, years) {
+    const today = new Date();
+    const [year, month, day] = dob.split('-').map(Number);
+    const birthDate = new Date(year, month - 1, day);
+    const passed = Math.round((today - birthDate) / 1000);
+    const left = Math.round((new Date(year + parseInt(years), month - 1, day) - today) / 1000);
+    return [p.numberToWords(passed), p.numberToWords(left)];
+  }
+  
+  function minutes(dob, years) {
+    const [passed, left] = seconds(dob, years);
+    return [p.numberToWords(Math.round(wordToNum(passed) / 60)), p.numberToWords(Math.round(wordToNum(left) / 60))];
+  }
+  
+  function hours(dob, years) {
+    const [passed, left] = seconds(dob, years);
+    return [p.numberToWords(Math.round(wordToNum(passed) / 3600)), p.numberToWords(Math.round(wordToNum(left) / 3600))];
+  }
+  
+  function days(dob, years) {
+    const [passed, left] = seconds(dob, years);
+    return [p.numberToWords(Math.round(wordToNum(passed) / 86400)), p.numberToWords(Math.round(wordToNum(left) / 86400))];
+  }
+</script>
+</head>
+<body>
+<div class="container">
+  <h2>Age Measurement App</h2>
+  <form id="ageForm">
+    <label for="dob">Date of Birth (YYYY-MM-DD):</label>
+    <input type="text" id="dob" name="dob" required>
+    <label for="years">How many years do you want to live (only digit will be accepted):</label>
+    <input type="number" id="years" name="years" required>
+    <label for="measure">How do you want to measure your age? (Seconds/Minutes/Hours/Days):</label>
+    <input type="text" id="measure" name="measure" required>
+    <button onclick="seconds(dob, years)" type="submit">Calculate</button>
+  </form>
+  <div id="result"></div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
