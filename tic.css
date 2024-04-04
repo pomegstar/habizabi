@@ -56,7 +56,12 @@ p{
 }
 
 a{
-    color: #4CAF50;
+    color: blue;
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
 }
 
 .reset-button:hover {
