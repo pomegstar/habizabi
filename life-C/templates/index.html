@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Life Calculator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>   
+        $(document).ready(function(){
+            $('#calculate-form').submit(function(event){
+                event.preventDefault(); // Prevent default form submission
+
+                // Get form data
+                var formData = {
+                    dob: $('#dob').val(),
+                    years: $('#years').val(),
+                    measure: $('#measure').val()
+                };
+
+                // Send form data to server
+                $.ajax({
+                    type: 'POST',
+                    url: '/calculate',
+                    data: formData,
+                    dataType: 'json',
+                    encode: true
+                })
+                .done(function(data){
+                    $('#result').text(data.result); // Update result on the page
+                });
+            });
+        });
+    </script>
+</head>
+<body> 
+    <h1>Life Calculator</h1>
+    <p><b>This is a web app where you will be able to calculate the time you have left and  the time you have already passed from your life expectancy.
+        Just enter your Date of birth, life expectancy and time format.</b></p>   
+    <div id="message">
+    <form id="calculate-form">
+        
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required><br>       
+            <label for="years">Life expectancy:</label>
+            <input type="number" id="years" placeholder="Enter your life expectancy" name="years" min="0" required><br>
+            <label for="measure">Time format:</label>
+            <select name="measure" id="measure" required>
+                <option value="Time format" disabled selected>Select time format:</option>
+                <option value="seconds">Seconds</option>
+                <option value="minutes">Minutes</option>
+                <option value="hours">Hours</option>
+                <option value="days">Days</option>
+            </select>
+        <input id ="bt" type="submit" value="Calculate">
+    </form>
+    </div>
+    <div id="result">The result will be appeared here.</div>
+    <p>Developed by: <a href="https://nazmul-111.me">Md. Nazmul Islam Rumman</a></p>
+    
+
+</body>
+</html>
+
