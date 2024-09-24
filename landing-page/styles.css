@@ -237,6 +237,24 @@ header a:hover {
     background-color: #48a9f8;
 }
 
+footer p {
+    text-align: center;
+    padding: 30px;
+    background-color: #a8a8a8;
+  }
+
+  footer p a {
+    color: #9327ff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  footer p a:hover {
+    color: #512afd;
+    text-decoration: underline;
+  }
+  
+
 /* Responsive */
 @media (max-width: 768px) {
     nav ul {
