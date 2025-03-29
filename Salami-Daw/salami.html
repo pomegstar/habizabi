@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Salami-Daw!</title>
+        <link rel="stylesheet" href="styles.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                function getRandomInt(min, max) {
+                    return Math.floor(Math.random() * (max - min)) + min;
+                } 
+                let fname = document.querySelector('#fname');
+                let add = document.querySelector('#add');
+                let p = document.querySelector('#p');
+                let n = document.querySelector('#n');
+
+                function toggleButtonState() {
+                    if (fname.value.trim() === '') {
+                        add.disabled = true; 
+                    } else {
+                        add.disabled = false; 
+                    }
+                }
+                toggleButtonState();
+
+                fname.addEventListener('input', toggleButtonState);
+
+                add.onclick = function() {
+                    const randomNum = getRandomInt(0, 1000); 
+                    p.innerHTML = `You deserve ${randomNum} TK salami from ${fname.value}!`;
+                }
+
+                n.onclick = function() {
+                    alert('I told you not to click here, But you did! Now give me salami! Here is my Bkash number: 01838377449. Eid Mobarak!');
+                }
+            });
+        </script>
+        
+    </head>
+
+    <body>
+        <h1>Salami Daw!</h1>
+        <p><b>This is a web app where you will know about how much salami you deserve from your friends.</b></p>
+        <div id="sl">
+            <input type="text" id="fname" placeholder="Enter your friend's name">
+            <button id="add">Submit</button>
+            <p id="p"></p>
+        </div>
+        <button id="n">Don't click here</button>
+        <p>Developed by: <a href="https://pomegstar.github.io">Md. Nazmul Islam Rumman</a></p>
+    </body>
+</html>
